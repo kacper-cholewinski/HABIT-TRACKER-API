@@ -4,6 +4,7 @@ from app.models.habit import Habit
 from app.models.check import HabitCheck, HabitStatus
 from app.main import app
 from fastapi.testclient import TestClient
+from tests.test_register import valid_email, strong_password
 
 from app.models.user import User
 
@@ -46,11 +47,9 @@ def clean_database():
     yield
 
 def authenticate():
-    email = "fixed@mail.com"
-    password = "password"
-    client.post("/auth/register", json={"email": email, "password": password})
+    client.post("/auth/register", json={"email": valid_email, "password": strong_password})
 
-    res = client.post("/auth/login", data={"username": email, "password": password})
+    res = client.post("/auth/login", data={"username": valid_email, "password": strong_password})
 
     token = res.json()["access_token"]
 
